@@ -142,8 +142,6 @@ const actions = {
         });
     })
   }
-}
-
 };
 
 // Setting up our bot
