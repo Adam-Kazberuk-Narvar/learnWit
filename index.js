@@ -139,7 +139,22 @@ const actions = {
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
           console.log("session context:"+JSON.stringify(sessions[sessionId]));
-          var context = body;
+          var context = {
+            coord_lat: body.coord.lat,
+            coord_long: body.coord.lon,
+            temp: body.main.temp,
+            temp_min: body.main.temp_min,
+            temp_max: body.main.temp_max,
+            pressure: body.main.pressure,
+            humidity: body.main.humidity,
+            visibility: body.visibility,
+            wind_speed: body.wind.speed,
+            wind_deg: body.wind.deg,
+            clouds: body.clouds.all,
+            sunrise: body.sys.sunrise,
+            sunset: body.sys.sunset,
+            name: body.name
+          }
           return resolve(context);
         });
     })
