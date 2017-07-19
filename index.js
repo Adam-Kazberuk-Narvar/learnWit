@@ -124,21 +124,19 @@ const actions = {
     console.log("setLocation req:"+JSON.stringify(req));
     return new Promise(function(resolve, reject){
       var context = {
-        location: "qq magoo"
+        location: req.entities.location.value
       }
+
       return resolve(context);
     })
   },
 
   getWeather(req){
-    console.log("getWeather request:"+JSON.stringify(req));
-    console.log("getWeather args:"+JSON.stringify(arguments));
     var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      console.log("session information:"+JSON.stringify(context));
-      request("http://api.openweathermap.org/data/2.5/weather?q=" + sessions[sessionId].location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+      request("http://api.openweathermap.org/data/2.5/weather?q=" + request.context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
           sessions[sessionId].weather = body;
