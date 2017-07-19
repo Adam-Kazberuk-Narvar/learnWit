@@ -75,7 +75,7 @@ const getResponse = function(data) {
         // var sessionId = findOrCreateSession(msg.uuid);
         let messageText = data.message.text;
         let sessionID   = rightNow; //msg.session_id;
-
+        console.log("conversing message:"+messageText);
         wit.converse(sessionID, messageText, {})
             .then((response) => {
                 console.log('Wit.ai response: ' + JSON.stringify(data));
