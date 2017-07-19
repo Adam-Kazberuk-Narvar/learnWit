@@ -94,7 +94,7 @@ function processMessage(event) {
         console.log("Message is: " + JSON.stringify(message));
 
         // You may get a text or attachment but not both
-        witApi.getResponse(message.text)
+        witApi.getResponse(event)
           .then(function(res){
             console.log("IMPORTANT RES:"+res);
           })
