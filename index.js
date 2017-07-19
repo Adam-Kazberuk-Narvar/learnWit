@@ -137,11 +137,7 @@ const actions = {
       var context = sessions[sessionId].context;
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
-          console.log("weather api call results:"+JSON.stringify(body));
-          console.log("session context:"+JSON.stringify(sessions[sessionId]));
-          console.log("response:"+JSON.stringify(response));
           var testObj = JSON.parse(body);
-          console.log("testObj:"+JSON.stringify(testObj));
           var context = {
             coord_lat: testObj.coord.lat,
             coord_long: testObj.coord.lon,
