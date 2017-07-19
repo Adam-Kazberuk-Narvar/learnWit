@@ -263,5 +263,17 @@ function verifyRequestSignature(req, res, buf) {
   }
 }
 
+function setLocation(context, entities){
+  context.location = entities.location;
+}
+
+function getWeather(context){
+  context.weather = "test";
+  request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+    function (error, response, body) {
+      context.weather = body;
+    });
+}
+
 app.listen(PORT);
 console.log('Listening on :' + PORT + '...');
