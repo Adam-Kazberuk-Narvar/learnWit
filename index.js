@@ -3,6 +3,8 @@ var request = require("request");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
+var Weather = require('./models/weather');
+
 var db = mongoose.connect(process.env.MONGODB_URI);
 
 var app = express();
@@ -97,36 +99,18 @@ function processMessage(event) {
             // keywords and send back the corresponding movie detail.
             // Otherwise search for new movie.
             switch (formattedMsg) {
-                case "plot":
-                case "date":
-                case "runtime":
-                case "director":
-                case "cast":
-                case "rating":
-                    //getMovieDetail(senderId, formattedMsg);
+                case "coord_lat":
+                case "coord_long":
+                    getWeatherDetail(senderId, formattedMsg);
                     break;
 
                 default:
-                  getWeather(senderId, formattedMsg);
-//                    findMovie(senderId, formattedMsg);
+                  findWeather(senderId, formattedMsg);
             }
         } else if (message.attachments) {
             sendMessage(senderId, {text: "Sorry, I don't understand your request."});
         }
     }
-}
-
-function getWeather(userId, city){
-  request("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=052a8ba39982fe46ea9ec930310db0eb", function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      sendMessage(userId, {text: "it worked!"});
-      sendMessage(userId, {text: JSON.stringify(body)});
-
-    }
-    else{
-      sendMessage(userId, {text: "Something went wrong. Try again."});
-    }
-  });
 }
 
 // sends message to user
@@ -142,6 +126,82 @@ function sendMessage(recipientId, message) {
     }, function(error, response, body) {
         if (error) {
             console.log("Error sending message: " + response.error);
+        }
+    });
+}
+
+
+function findWeather(userId, cityName) {
+  request("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+            var weatherObj = JSON.parse(body);
+            if (weatherObj.Response === "True") {
+                var query = {user_id: userId};
+
+                var update = {
+                  user_id: userId,
+                  coord_lat: weatherObj.coord.lat,
+                  coord_long: weatherObj.coord.long,
+                  temp: weatherObj.main.temp,
+                  temp_min: weatherObj.main.temp_min,
+                  temp_max: weatherObj.main.temp_max,
+                  pressure: weatherObj.main.pressure,
+                  humidity: weatherObj.main.humidity,
+                  visibility: weatherObj.visibility,
+                  wind_speed: weatherObj.wind.speed,
+                  wind_deg: weatherObj.wind.deg,
+                  clouds: weatherObj.clouds.all,
+                  sunrise: weatherObj.sys.sunrise,
+                  sunset: weatherObj.sys.sunset,
+                  name: weatherObj.name
+                }
+
+                var options = {upsert: true};
+                Weather.findOneAndUpdate(query, update, options, function(err, weatherInfo) {
+                    if (err) {
+                        console.log("Database error: " + err);
+                    } else {
+                        message = {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "generic",
+                                    elements: [{
+                                        title: weatherObj.name,
+                                        subtitle: "Is this the city you are looking for?",
+                                        buttons: [{
+                                            type: "postback",
+                                            title: "Yes",
+                                            payload: "Correct"
+                                        }, {
+                                            type: "postback",
+                                            title: "No",
+                                            payload: "Incorrect"
+                                        }]
+                                    }]
+                                }
+                            }
+                        };
+                        sendMessage(userId, message);
+                    }
+                });
+            } else {
+                console.log(weatherObj.Error);
+                sendMessage(userId, {text: weatherObj.Error});
+            }
+        } else {
+            sendMessage(userId, {text: "Something went wrong. Try again."});
+        }
+    });
+}
+
+function getWeatherDetail(userId, field) {
+    Weather.findOne({user_id: userId}, function(err, weather) {
+        if(err) {
+            sendMessage(userId, {text: "Something went wrong. Try again"});
+        } else {
+            sendMessage(userId, {text: weather[field]});
         }
     });
 }
