@@ -193,10 +193,13 @@ function findWeather(userId, cityName) {
 }
 
 function getWeatherDetail(userId, field) {
+    console.log("finding weather for:"+field);
     Weather.findOne({user_id: userId}, function(err, weather) {
         if(err) {
+            console.log("error getting weather detail");
             sendMessage(userId, {text: "Something went wrong getWeatherDetail. Try again"});
         } else {
+            console.log("success getting weather detail");
             sendMessage(userId, {text: weather[field]});
         }
     });
