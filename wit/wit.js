@@ -54,7 +54,7 @@ const  message = function(msg) {
 
         let sessionId = findOrCreateSession(msg.uuid);
         let messageText = msg.message.text;
-
+        console.log("msg:"+JSON.stringify(msg));
         wit.message(mssageText, msg.context, {})
             .then((data) => {
                 console.log('Wit.ai response: ' + JSON.stringify(data));
