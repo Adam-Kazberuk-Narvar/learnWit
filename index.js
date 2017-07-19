@@ -119,6 +119,18 @@ const actions = {
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
+  setLocation(context, entities){
+    context.location = entities.location;
+  }
+
+  getWeather(context){
+    context.weather = "test";
+    request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+      function (error, response, body) {
+        context.weather = body;
+      });
+  }
+
 };
 
 // Setting up our bot
@@ -261,18 +273,6 @@ function verifyRequestSignature(req, res, buf) {
       throw new Error("Couldn't validate the request signature.");
     }
   }
-}
-
-function setLocation(context, entities){
-  context.location = entities.location;
-}
-
-function getWeather(context){
-  context.weather = "test";
-  request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
-    function (error, response, body) {
-      context.weather = body;
-    });
 }
 
 app.listen(PORT);
