@@ -126,11 +126,11 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var cityName = "Dublin";
-      request("http://api.openweathermap.org/data/2.5/weather?q=" + states[sessionId].location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+      request("http://api.openweathermap.org/data/2.5/weather?q=" + sessions[sessionId].location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
-          states[sessionId].weather = body;
-          return resolve(states[sessionId]);
+          sessions[sessionId].weather = body;
+          return resolve(sessions[sessionId]);
         });
     })
   }
