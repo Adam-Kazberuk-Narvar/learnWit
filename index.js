@@ -124,7 +124,7 @@ const actions = {
     return new Promise(function(resolve, reject){
       return resolve();
     })
-  }
+  },
 
   getWeather(req){
     console.log("getWeather request:"+JSON.stringify(req));
