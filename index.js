@@ -126,7 +126,7 @@ const actions = {
     return new Promise(function (resolve, reject) {
       var context = {};
       context.location = "chewy mcgoo";
-      return Promise.resolve(context);
+      return resolve(context);
     });
   },
 
@@ -141,7 +141,7 @@ const actions = {
           console.log("weather api call results:"+JSON.stringify(body));
           var context = {};
           context.weather = "test";
-          return Promise.resolve(context);
+          return resolve(context);
         });
     })
   }
