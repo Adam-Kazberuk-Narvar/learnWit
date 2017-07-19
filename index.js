@@ -130,9 +130,9 @@ const actions = {
     });
   },
 
-  getWeather(request){
-    console.log("getWeather request:"+JSON.stringify(request));
-    var sessionId = request.sessionId;
+  getWeather(req){
+    console.log("getWeather request:"+JSON.stringify(req));
+    var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var cityName = "Dublin";
