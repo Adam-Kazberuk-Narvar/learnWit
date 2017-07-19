@@ -96,7 +96,7 @@ function processMessage(event) {
         // You may get a text or attachment but not both
         witApi.getResponse(event)
           .then(function(res){
-            console.log("IMPORTANT RES:"+res);
+            console.log("IMPORTANT RES:"+JSON.stringify(res));
           })
         if (message.text) {
             var formattedMsg = message.text.toLowerCase().trim();
