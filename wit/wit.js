@@ -88,6 +88,7 @@ const getResponse = function(data) {
                 resolve(response);
             })
             .catch((error) => {
+                console.log("Wit error:"+error);
 //                logger.error('WIT Error: ', error);
                 reject(error);
             });
