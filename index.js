@@ -121,8 +121,9 @@ const actions = {
   // See https://wit.ai/docs/quickstart
 
   setLocation(req){
+    console.log("setLocation req:"+JSON.stringify(req));
     return new Promise(function(resolve, reject){
-      return resolve();
+      return resolve("qq magoo");
     })
   },
 
