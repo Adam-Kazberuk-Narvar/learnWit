@@ -1,6 +1,5 @@
 /* jshint node: true, devel: true */
 'use strict';
-const config   = require('config');
 const rightNow = new Date().toISOString();
 
 const WIT_ACCESS_TOKEN = process.env.WIT_ACCESS_TOKEN;
