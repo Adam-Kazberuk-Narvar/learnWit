@@ -121,7 +121,7 @@ const actions = {
   // See https://wit.ai/docs/quickstart
   setLocation(context, entities){
     context.location = entities.location;
-  }
+  },
 
   getWeather(context){
     context.weather = "test";
