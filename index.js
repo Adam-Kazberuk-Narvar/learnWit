@@ -132,6 +132,7 @@ function sendMessage(recipientId, message) {
 
 
 function findWeather(userId, cityName) {
+  console.log("querying:"+"http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb");
   request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
