@@ -122,7 +122,7 @@ const actions = {
 
   getWeather(req){
     console.log("getWeather request:"+JSON.stringify(req));
-    console.log("getWeather args:"+JSON.stringify(args));
+    console.log("getWeather args:"+JSON.stringify(arguments));
     var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
