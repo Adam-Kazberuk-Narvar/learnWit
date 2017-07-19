@@ -123,7 +123,10 @@ const actions = {
   setLocation(req){
     console.log("setLocation req:"+JSON.stringify(req));
     return new Promise(function(resolve, reject){
-      return resolve("qq magoo");
+      var context = {
+        location: "qq magoo"
+      }
+      return resolve(context);
     })
   },
 
