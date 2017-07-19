@@ -117,7 +117,7 @@ function processMessage(event) {
 }
 
 function getWeather(userId, city){
-  request("api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=052a8ba39982fe46ea9ec930310db0eb", function (error, response, body) {
+  request("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=052a8ba39982fe46ea9ec930310db0eb", function (error, response, body) {
     if (!error && response.statusCode == 200) {
       sendMessage(userId, {text: "it worked!"});
     }
