@@ -132,7 +132,7 @@ const actions = {
     var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
-      console.log("session information:"+JSON.stringify(sessions[sessionId]));
+      console.log("session information:"+JSON.stringify(sessions[sessionId].context));
       request("http://api.openweathermap.org/data/2.5/weather?q=" + sessions[sessionId].location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
@@ -223,7 +223,7 @@ app.post('/webhook', (req, res) => {
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
-            console.log("pre run actions:"+JSON.stringify(sessions[sessionId]));
+            console.log("pre run actions:"+JSON.stringify(sessions[sessionId].context));
             wit.runActions(
               sessionId, // the user's current session
               text, // the user's message
