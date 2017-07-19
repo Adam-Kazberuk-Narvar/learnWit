@@ -140,7 +140,7 @@ const actions = {
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
           var context = {};
-          context.weather = "test";
+          context.weather = body;
           return resolve(context);
         });
     })
