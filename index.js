@@ -125,7 +125,7 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = {};
-      context.location = "chewy mcgoo";
+      context.location = request.entities.location.value;
       return resolve(context);
     });
   },
@@ -136,7 +136,7 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var cityName = "Dublin";
-      request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+      request("http://api.openweathermap.org/data/2.5/weather?q=" + context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
           var context = {};
