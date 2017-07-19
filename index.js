@@ -119,16 +119,6 @@ const actions = {
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
-  setLocation(request){
-    console.log("setLocation request:"+JSON.stringify(request));
-    var sessionId = request.sessionId;
-    var recipientId = sessions[sessionId].fbid;
-    return new Promise(function (resolve, reject) {
-      var context = {};
-      context.location = request.entities.location.value;
-      return resolve(context);
-    });
-  },
 
   getWeather(req){
     console.log("getWeather request:"+JSON.stringify(req));
