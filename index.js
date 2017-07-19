@@ -137,60 +137,55 @@ function findWeather(userId, cityName) {
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
             var weatherObj = JSON.parse(body);
-            if (weatherObj.Response === "True") {
-                var query = {user_id: userId};
+            var query = {user_id: userId};
 
-                var update = {
-                  user_id: userId,
-                  coord_lat: weatherObj.coord.lat,
-                  coord_long: weatherObj.coord.long,
-                  temp: weatherObj.main.temp,
-                  temp_min: weatherObj.main.temp_min,
-                  temp_max: weatherObj.main.temp_max,
-                  pressure: weatherObj.main.pressure,
-                  humidity: weatherObj.main.humidity,
-                  visibility: weatherObj.visibility,
-                  wind_speed: weatherObj.wind.speed,
-                  wind_deg: weatherObj.wind.deg,
-                  clouds: weatherObj.clouds.all,
-                  sunrise: weatherObj.sys.sunrise,
-                  sunset: weatherObj.sys.sunset,
-                  name: weatherObj.name
-                }
-
-                var options = {upsert: true};
-                Weather.findOneAndUpdate(query, update, options, function(err, weatherInfo) {
-                    if (err) {
-                        console.log("Database error: " + err);
-                    } else {
-                        message = {
-                            attachment: {
-                                type: "template",
-                                payload: {
-                                    template_type: "generic",
-                                    elements: [{
-                                        title: weatherObj.name,
-                                        subtitle: "Is this the city you are looking for?",
-                                        buttons: [{
-                                            type: "postback",
-                                            title: "Yes",
-                                            payload: "Correct"
-                                        }, {
-                                            type: "postback",
-                                            title: "No",
-                                            payload: "Incorrect"
-                                        }]
-                                    }]
-                                }
-                            }
-                        };
-                        sendMessage(userId, message);
-                    }
-                });
-            } else {
-                console.log("weather obj error:" + weatherObj.Error);
-                sendMessage(userId, {text: weatherObj.Error});
+            var update = {
+              user_id: userId,
+              coord_lat: weatherObj.coord.lat,
+              coord_long: weatherObj.coord.long,
+              temp: weatherObj.main.temp,
+              temp_min: weatherObj.main.temp_min,
+              temp_max: weatherObj.main.temp_max,
+              pressure: weatherObj.main.pressure,
+              humidity: weatherObj.main.humidity,
+              visibility: weatherObj.visibility,
+              wind_speed: weatherObj.wind.speed,
+              wind_deg: weatherObj.wind.deg,
+              clouds: weatherObj.clouds.all,
+              sunrise: weatherObj.sys.sunrise,
+              sunset: weatherObj.sys.sunset,
+              name: weatherObj.name
             }
+
+            var options = {upsert: true};
+            Weather.findOneAndUpdate(query, update, options, function(err, weatherInfo) {
+                if (err) {
+                    console.log("Database error: " + err);
+                } else {
+                    message = {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "generic",
+                                elements: [{
+                                    title: weatherObj.name,
+                                    subtitle: "Is this the city you are looking for?",
+                                    buttons: [{
+                                        type: "postback",
+                                        title: "Yes",
+                                        payload: "Correct"
+                                    }, {
+                                        type: "postback",
+                                        title: "No",
+                                        payload: "Incorrect"
+                                    }]
+                                }]
+                            }
+                        }
+                    };
+                    sendMessage(userId, message);
+                }
+            });
         } else {
             sendMessage(userId, {text: "Something went wrong findWeather. Try again."});
         }
