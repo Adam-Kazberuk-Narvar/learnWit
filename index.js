@@ -138,8 +138,9 @@ const actions = {
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
-          sessions[sessionId].weather = body;
-          return resolve(sessions[sessionId]);
+          console.log("session context:"+JSON.stringify(sessions[sessionId]));
+          var context = body;
+          return resolve(context);
         });
     })
   }
