@@ -123,8 +123,8 @@ const actions = {
   setLocation(req){
     console.log("setLocation req:"+JSON.stringify(req));
     var location = req.entities.location.value;
-    console.log("this is before the promise:"+location);
     return new Promise(function(resolve, reject){
+      console.log("this is:"+JSON.stringify(this));
       console.log("this one creates the circular reference:"+location);
       var context = {
         location: "qq magoo"
