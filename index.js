@@ -121,13 +121,9 @@ const actions = {
   // See https://wit.ai/docs/quickstart
 
   setLocation(req){
-    console.log("setLocation req:"+JSON.stringify(req));
-    var location = req.entities.location.value;
-    this.location = location;
     return new Promise(function(resolve, reject){
-      console.log("setLocation req (Promise):"+JSON.stringify(req));
       var context = {
-        location: "qq magoo"
+        location: req.entities.location[0].value
       }
 
       return resolve(context);
