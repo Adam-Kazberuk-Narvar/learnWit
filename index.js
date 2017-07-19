@@ -120,6 +120,12 @@ const actions = {
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
 
+  setLocation(req){
+    return new Promise(function(resolve, reject){
+      return resolve();
+    })
+  }
+
   getWeather(req){
     console.log("getWeather request:"+JSON.stringify(req));
     console.log("getWeather args:"+JSON.stringify(arguments));
@@ -217,6 +223,7 @@ app.post('/webhook', (req, res) => {
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
+            console.log("pre run actions:"+JSON.stringify(sessions[sessionId]));
             wit.runActions(
               sessionId, // the user's current session
               text, // the user's message
