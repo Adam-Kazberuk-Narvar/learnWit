@@ -19,4 +19,4 @@ var WeatherSchema = new Schema({
   name: {type: String}
 });
 
-module.exports = mongoose.model("Weather", MovieSchema);
+module.exports = mongoose.model("Weather", WeatherSchema);
