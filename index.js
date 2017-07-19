@@ -132,7 +132,7 @@ const actions = {
       }
 
       return resolve(context);
-    })
+    }).bind(this);
   },
 
   getWeather(req){
