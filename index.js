@@ -139,6 +139,7 @@ const actions = {
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
           console.log("session context:"+JSON.stringify(sessions[sessionId]));
+          console.log("coordinates:"+JSON.stringify(body.coord));
           var context = {
             coord_lat: body.coord.lat,
             coord_long: body.coord.lon,
