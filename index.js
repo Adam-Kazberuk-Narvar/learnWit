@@ -179,8 +179,9 @@ app.post('/webhook', (req, res) => {
             // We received a text message
             wit.converse(sessionId, text, {})
               .then((response) => {
-                console.log('Wit.ai response: ' + JSON.stringify(data));
-                fbMessage(sessionId, JSON.stringify(data));
+                console.log('Wit.ai response: ' + JSON.stringify(response));
+                const recipientId = sessions[sessionId].fbid;
+                fbMessage(recipientId, JSON.stringify(response));
               })
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
