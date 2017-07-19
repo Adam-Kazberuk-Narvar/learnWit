@@ -76,7 +76,7 @@ const getResponse = function(data) {
         let messageText = data.message.text;
         let sessionID   = rightNow; //msg.session_id;
 
-        wit.converse(sessionID, messageText, {})
+        wit.converse(sessionID, data, {})
             .then((response) => {
                 console.log('Wit.ai response: ' + JSON.stringify(data));
                 response.original_msg = data;
