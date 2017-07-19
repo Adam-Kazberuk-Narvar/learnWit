@@ -91,7 +91,7 @@ function processMessage(event) {
         var senderId = event.sender.id;
 
         console.log("Received message from senderId: " + senderId);
-        console.log("Message is: " + JSON.stringify(message));
+        console.log("Event is: " + JSON.stringify(event));
 
         // You may get a text or attachment but not both
         witApi.getResponse(event)
