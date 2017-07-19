@@ -7,6 +7,8 @@ var Weather = require('./models/weather');
 
 var db = mongoose.connect(process.env.MONGODB_URI);
 
+var witApi = require('./wit/wit');
+
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -92,6 +94,10 @@ function processMessage(event) {
         console.log("Message is: " + JSON.stringify(message));
 
         // You may get a text or attachment but not both
+        witApi.getResponse(message.text)
+          .then(function(res){
+            console.log("IMPORTANT RES:"+res);
+          })
         if (message.text) {
             var formattedMsg = message.text.toLowerCase().trim();
 
@@ -132,7 +138,6 @@ function sendMessage(recipientId, message) {
 
 
 function findWeather(userId, cityName) {
-  console.log("querying:"+"http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb");
   request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -142,7 +147,7 @@ function findWeather(userId, cityName) {
             var update = {
               user_id: userId,
               coord_lat: weatherObj.coord.lat,
-              coord_long: weatherObj.coord.long,
+              coord_long: weatherObj.coord.lon,
               temp: weatherObj.main.temp,
               temp_min: weatherObj.main.temp_min,
               temp_max: weatherObj.main.temp_max,
@@ -193,13 +198,10 @@ function findWeather(userId, cityName) {
 }
 
 function getWeatherDetail(userId, field) {
-    console.log("finding weather for:"+field);
     Weather.findOne({user_id: userId}, function(err, weather) {
         if(err) {
-            console.log("error getting weather detail");
             sendMessage(userId, {text: "Something went wrong getWeatherDetail. Try again"});
         } else {
-            console.log("success getting weather detail");
             sendMessage(userId, {text: weather[field]});
         }
     });
