@@ -120,6 +120,8 @@ function getWeather(userId, city){
   request("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=052a8ba39982fe46ea9ec930310db0eb", function (error, response, body) {
     if (!error && response.statusCode == 200) {
       sendMessage(userId, {text: "it worked!"});
+      sendMessage(userId, {text: JSON.stringify(body)});
+
     }
     else{
       sendMessage(userId, {text: "Something went wrong. Try again."});
