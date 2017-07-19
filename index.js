@@ -147,16 +147,16 @@ const actions = {
             coord_long: testObj.coord.lon,
             temp: testObj.main.temp,
             temp_min: testObj.main.temp_min,
-            temp_max: body.main.temp_max,
-            pressure: body.main.pressure,
-            humidity: body.main.humidity,
-            visibility: body.visibility,
-            wind_speed: body.wind.speed,
-            wind_deg: body.wind.deg,
-            clouds: body.clouds.all,
-            sunrise: body.sys.sunrise,
-            sunset: body.sys.sunset,
-            name: body.name
+            temp_max: testObj.main.temp_max,
+            pressure: testObj.main.pressure,
+            humidity: testObj.main.humidity,
+            visibility: testObj.visibility,
+            wind_speed: testObj.wind.speed,
+            wind_deg: testObj.wind.deg,
+            clouds: testObj.clouds.all,
+            sunrise: testObj.sys.sunrise,
+            sunset: testObj.sys.sunset,
+            name: testObj.name
           }
           return resolve(context);
         });
