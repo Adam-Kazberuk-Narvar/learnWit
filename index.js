@@ -123,8 +123,9 @@ const actions = {
   setLocation(req){
     console.log("setLocation req:"+JSON.stringify(req));
     return new Promise(function(resolve, reject){
+      var location = req.entities.location.value;
       var context = {
-        location: req.entities.location.value
+        location: location
       }
 
       return resolve(context);
