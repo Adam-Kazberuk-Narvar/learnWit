@@ -120,23 +120,26 @@ const actions = {
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
   setLocation(request){
+    console.log("setLocation request:"+JSON.stringify(request));
     var sessionId = request.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
+      var context = {};
       context.location = "chewy mcgoo";
       return Promise.resolve(context);
     });
   },
 
   getWeather(request){
+    console.log("getWeather request:"+JSON.stringify(request));
     var sessionId = request.sessionId;
     var recipientId = sessions[sessionId].fbid;
-    console.log("getWeather request:"+JSON.stringify(request));
     return new Promise(function (resolve, reject) {
       var cityName = "Dublin";
       request("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
+          var context = {};
           context.weather = "test";
           return Promise.resolve(context);
         });
