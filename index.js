@@ -125,7 +125,6 @@ const actions = {
       var context = {
         location: req.entities.location[0].value
       }
-
       return resolve(context);
     });
   },
@@ -135,8 +134,6 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      console.log("req context:"+JSON.stringify(req))
-      console.log("context context:"+JSON.stringify(context))
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
