@@ -187,11 +187,11 @@ function findWeather(userId, cityName) {
                     }
                 });
             } else {
-                console.log(weatherObj.Error);
+                console.log("weather obj error:" + weatherObj.Error);
                 sendMessage(userId, {text: weatherObj.Error});
             }
         } else {
-            sendMessage(userId, {text: "Something went wrong. Try again."});
+            sendMessage(userId, {text: "Something went wrong findWeather. Try again."});
         }
     });
 }
@@ -199,7 +199,7 @@ function findWeather(userId, cityName) {
 function getWeatherDetail(userId, field) {
     Weather.findOne({user_id: userId}, function(err, weather) {
         if(err) {
-            sendMessage(userId, {text: "Something went wrong. Try again"});
+            sendMessage(userId, {text: "Something went wrong getWeatherDetail. Try again"});
         } else {
             sendMessage(userId, {text: weather[field]});
         }
