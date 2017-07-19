@@ -140,11 +140,13 @@ const actions = {
           console.log("weather api call results:"+JSON.stringify(body));
           console.log("session context:"+JSON.stringify(sessions[sessionId]));
           console.log("response:"+JSON.stringify(response));
+          var testObj = JSON.parse(body);
+          console.log("testObj:"+JSON.stringify(testObj));
           var context = {
-            coord_lat: body.coord.lat,
-            coord_long: body.coord.lon,
-            temp: body.main.temp,
-            temp_min: body.main.temp_min,
+            coord_lat: testObj.coord.lat,
+            coord_long: testObj.coord.lon,
+            temp: testObj.main.temp,
+            temp_min: testObj.main.temp_min,
             temp_max: body.main.temp_max,
             pressure: body.main.pressure,
             humidity: body.main.humidity,
