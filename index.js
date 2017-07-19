@@ -123,6 +123,7 @@ const actions = {
   setLocation(req){
     console.log("setLocation req:"+JSON.stringify(req));
     var location = req.entities.location.value;
+    this.location = location;
     console.log("this is (outside promise):"+JSON.stringify(this));
     return new Promise(function(resolve, reject){
       console.log("this one creates the circular reference:"+location);
