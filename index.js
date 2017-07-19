@@ -125,7 +125,7 @@ const actions = {
     var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
-      var cityName = "Dublin";
+      console.log("session information:"+JSON.stringify(sessions[sessionId]));
       request("http://api.openweathermap.org/data/2.5/weather?q=" + sessions[sessionId].location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           console.log("weather api call results:"+JSON.stringify(body));
