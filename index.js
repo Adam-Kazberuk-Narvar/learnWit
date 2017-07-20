@@ -18,6 +18,7 @@ const crypto = require('crypto');
 const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
+const temperatureUtility = require("./utility/temperature");
 
 const { Wit, log } = require('node-wit');
 
@@ -144,26 +145,7 @@ const actions = {
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.entities.location[0].value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
-          var context = {
-            weather: testObj
-          };
-/*          var context = {
-            coord_lat: testObj.coord.lat,
-            coord_long: testObj.coord.lon,
-            temp: testObj.main.temp,
-            temp_min: testObj.main.temp_min,
-            temp_max: testObj.main.temp_max,
-            pressure: testObj.main.pressure,
-            humidity: testObj.main.humidity,
-            visibility: testObj.visibility,
-            wind_speed: testObj.wind.speed,
-            wind_deg: testObj.wind.deg,
-            clouds: testObj.clouds.all,
-            sunrise: testObj.sys.sunrise,
-            sunset: testObj.sys.sunset,
-            name: testObj.name
-          }*/
-          console.log("updated getWeather context:"+JSON.stringify(context));
+          var context = testObj;
           return resolve(context);
         });
     })
@@ -174,10 +156,9 @@ const actions = {
     var self = this;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      console.log("the context I care about:"+JSON.stringify(context));
-      console.log("the other context I might care about:"+JSON.stringify(req.context));
-      var string = "The weather in"
-      self.send({sessionId: sessionId}, {text:"test"});
+      var convertedTemps = temperatureUtility.convertKelvin(req.context.main.temp, req.context.main.temp_min, req.context.main.temp_max);
+      var string = "The temperature in "+req.context.name+" is "+convertedTemps[0].f+" with a min of "+convertedTemps[1].f+" and a max of "+convertedTemps[2].f;
+      self.send({sessionId: sessionId}, {text:string});
       return resolve(context);
     });
 
