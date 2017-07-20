@@ -72,17 +72,20 @@ exports = module.exports = function WeatherObj(weatherData){
     switch(this.unitType){
       case "Absolute":
         //we're already in Kelvin
+        current = current + "°K";
+        min = min + "°K";
+        max = max + "°K";
         break;
       case "Metric":
-        current = tempUtil.convertKelvinToC(current);
-        min = tempUtil.convertKelvinToC(min);
-        max = tempUtil.convertKelvinToC(max);
+        current = tempUtil.convertKelvinToC(current) + "°C";
+        min = tempUtil.convertKelvinToC(min) + "°C";
+        max = tempUtil.convertKelvinToC(max) + "°C";
         break;
       case "Imperial":
       default:
-        current = tempUtil.convertKelvinToF(current);
-        min = tempUtil.convertKelvinToF(min);
-        max = tempUtil.convertKelvinToF(max);
+        current = tempUtil.convertKelvinToF(current) + "°F";
+        min = tempUtil.convertKelvinToF(min) + "°F";
+        max = tempUtil.convertKelvinToF(max) + "°F";
         break;
     }
     string += "The temperature in " + this.cityName + "\n"
