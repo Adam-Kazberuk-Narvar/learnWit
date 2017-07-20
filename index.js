@@ -179,7 +179,7 @@ const actions = {
       switch(context.query){
         case 'weather':
         default:
-          string =
+          string = "qq magoo";
           break;
       }
       self.send({sessionId: sessionId}, {text:string});
