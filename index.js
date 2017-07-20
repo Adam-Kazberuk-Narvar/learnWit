@@ -171,7 +171,7 @@ const actions = {
     var self = this;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      self.send(sessionId, "test");
+      self.send({sessionId: sessionId}, {text:"test"});
       return resolve(context);
     });
 
