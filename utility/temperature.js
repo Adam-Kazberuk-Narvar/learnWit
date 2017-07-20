@@ -1,4 +1,4 @@
-module.exports = {
+exports = {
   convertKelvinToF: function convertKelvinToF(kelvinTemp){
     return (9/5) * kelvinTemp - 459.67;
   },
