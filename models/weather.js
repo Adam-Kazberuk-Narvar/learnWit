@@ -51,7 +51,7 @@ exports = module.exports = function WeatherObj(weatherData){
     current: weatherData.main.temp
   };
   this.weather = [];
-  for(var i=0; i<weatherData.weather.length){
+  for(var i=0; i<weatherData.weather.length; i++){
     this.weather.push({
       main: weatherData.weather[i].main,
       description: weatherData.weather[i].description
