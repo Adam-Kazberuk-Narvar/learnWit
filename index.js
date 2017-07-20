@@ -1,3 +1,5 @@
+'use strict';
+
 // Messenger API integration example
 // We assume you have:
 // * a Wit.ai bot setup (https://wit.ai/docs/quickstart)
@@ -16,7 +18,7 @@ const crypto = require('crypto');
 const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
-var tempUtil = require("./utility/temperature");
+var tempUtil = require("./utility/temperature.js");
 
 const { Wit, log } = require('node-wit');
 
