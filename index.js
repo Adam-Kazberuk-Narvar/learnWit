@@ -165,6 +165,7 @@ const actions = {
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
       var string;
+      console.log("THE IMPORTANT THING FOR RIGHT NOW:"+context.query);
       switch(context.query){
         case "temperature":
           string = weather.getTempString();
