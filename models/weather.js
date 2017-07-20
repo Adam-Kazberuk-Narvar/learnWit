@@ -80,6 +80,9 @@ exports = module.exports = function WeatherObj(weatherData){
 
   this.getSunString = function(){
     var string = "";
+    console.log(typeof this.solar.sunrise);
+    console.log(this.solar.sunrise);
+    
     var sunrise = this.solar.sunrise.toTimeString();
     var sunset = this.solar.sunset.toTimeString();
     string += "The sun will rise at " + sunrise
