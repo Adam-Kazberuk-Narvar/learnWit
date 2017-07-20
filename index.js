@@ -163,7 +163,7 @@ const actions = {
     var self = this;
     var weather = req.context.weather;
     return new Promise(function (resolve, reject) {
-      var context = sessions[sessionId].context;
+      var context = req.context;
       var string;
       console.log("THE IMPORTANT THING FOR RIGHT NOW:"+context.query);
       switch(context.query){
