@@ -1,3 +1,4 @@
+var tempUtil = require('../utility/temperature');
 /*
 {
   "coord": {
@@ -45,6 +46,7 @@
 // Constructor
 exports = module.exports = function WeatherObj(weatherData){
   this.cityName = weatherData.name;
+  this.unitType = "Imperial"; //default
   this.temperature = {
     min: weatherData.main.temp_min,
     max: weatherData.main.temp_max,
@@ -64,10 +66,29 @@ exports = module.exports = function WeatherObj(weatherData){
 
   this.getTempString = function(){
     var string = "";
+    var current = this.temperature.current;
+    var min = this.temperature.min;
+    var max = this.temperature.max;
+    switch(this.unitType){
+      case "Absolute":
+        //we're already in Kelvin
+        break;
+      case "Metric":
+        current = tempUtil.convertKelvinToC(current);
+        min = tempUtil.convertKelvinToC(min);
+        max = tempUtil.convertKelvinToC(max);
+        break;
+      case "Imperial":
+      default:
+        current = tempUtil.convertKelvinToF(current);
+        min = tempUtil.convertKelvinToF(min);
+        max = tempUtil.convertKelvinToF(max);
+        break;
+    }
     string += "The temperature in " + this.cityName + "\n"
-     + " is currently " + this.temperature.current + "\n"
-     + " with a min of " + this.temperature.min + "\n"
-     + " and a max of " + this.temperature.max;
+     + " is currently " + current + "\n"
+     + " with a min of " + min + "\n"
+     + " and a max of " + max;
      return string;
   }
 
@@ -86,6 +107,10 @@ exports = module.exports = function WeatherObj(weatherData){
      + " and it will set at " + sunset + "\n"
      + "(please note: these times are UTC)";
      return string;
+  }
+
+  this.setUnits(unit){
+    this.unitType = unit;
   }
 
   return this;

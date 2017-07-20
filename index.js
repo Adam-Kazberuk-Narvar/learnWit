@@ -40,7 +40,6 @@ crypto.randomBytes(8, (err, buff) => {
   console.log(`/webhook will accept the Verify Token "${FB_VERIFY_TOKEN}"`);
 });
 
-var tempUtil = require('./utility/temperature');
 var WeatherObj = require('./models/weather');
 
 // ----------------------------------------------------------------------------
