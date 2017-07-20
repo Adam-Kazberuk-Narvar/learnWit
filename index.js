@@ -150,7 +150,7 @@ const actions = {
           var testWeatherObj = new WeatherObj(testObj);
           var context = {
             weather: testWeatherObj,
-            query: req.entities.weather_query
+            query: req.entities.weather_query[0].value
           }
           return resolve(context);
         });
