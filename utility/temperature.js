@@ -18,7 +18,7 @@ function temperatureUtility(){
     }
     return convertedArr;
   }
-
+  console.log("hopefully temp util contains these:"+JSON.stringify(self));
   return self;
 }
 

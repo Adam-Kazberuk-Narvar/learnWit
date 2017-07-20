@@ -18,7 +18,7 @@ const crypto = require('crypto');
 const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
-const temperatureUtility = require("./utility/temperature");
+const tempUtil = require("./utility/temperature");
 
 const { Wit, log } = require('node-wit');
 
@@ -156,8 +156,8 @@ const actions = {
     var self = this;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      console.log("temperature utility:"+JSON.stringify(temperatureUtility));
-      var convertedTemps = temperatureUtility.convertKelvin(req.context.main.temp, req.context.main.temp_min, req.context.main.temp_max);
+      console.log("temperature utility:"+JSON.stringify(tempUtil));
+      var convertedTemps = tempUtil.convertKelvin(req.context.main.temp, req.context.main.temp_min, req.context.main.temp_max);
       var string = "The temperature in "+req.context.name+" is "+convertedTemps[0].f+" with a min of "+convertedTemps[1].f+" and a max of "+convertedTemps[2].f;
       self.send({sessionId: sessionId}, {text:string});
       return resolve(context);
