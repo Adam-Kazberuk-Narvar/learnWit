@@ -40,6 +40,27 @@ crypto.randomBytes(8, (err, buff) => {
   console.log(`/webhook will accept the Verify Token "${FB_VERIFY_TOKEN}"`);
 });
 
+var tempUtil = {
+  convertKelvinToF: function convertKelvinToF(kelvinTemp){
+    return (9/5) * kelvinTemp - 459.67;
+  },
+
+  convertKelvinToC: function convertKelvinToC(kelvinTemp){
+    return kelvinTemp - 273.15;
+  },
+
+  convertKelvin: function convertKelvin(kelvinTemp){
+    var convertedArr = [];
+    for(var i=0; i<arguments.length; i++){
+      convertedArr.push({
+        f: convertKelvinToF(arguments[i]),
+        c: convertKelvinToC(arguments[i])
+      })
+    }
+    return convertedArr;
+  }
+}
+
 // ----------------------------------------------------------------------------
 // Messenger API specific code
 
@@ -155,7 +176,6 @@ const actions = {
     var self = this;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      var tempUtil = require("./utility/temperature");
       console.log("temperature utility:"+JSON.stringify(tempUtil));
       var convertedTemps = tempUtil.convertKelvin(req.context.main.temp, req.context.main.temp_min, req.context.main.temp_max);
       var string = "The temperature in "+req.context.name+" is "+convertedTemps[0].f+" with a min of "+convertedTemps[1].f+" and a max of "+convertedTemps[2].f;
