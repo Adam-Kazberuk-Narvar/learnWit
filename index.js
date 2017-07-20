@@ -127,14 +127,13 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      console.log("the new important one:"+JSON.stringify(req.context));
-      request("http://api.openweathermap.org/data/2.5/weather?q=" + req.entities.location[0].value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+      request("http://api.openweathermap.org/data/2.5/weather?q=" + req.context.location[0].value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
           var testWeatherObj = new WeatherObj(testObj);
           var context = {
             weather: testWeatherObj,
-            query: req.entities.weather_query[0].value
+            query: req.context.weather_query[0].value
           }
           return resolve(context);
         });
@@ -176,6 +175,7 @@ const actions = {
     var weather_query = entities.weather_query || context.weather_query || false;
     if(weather_query){
       context.weather_query = weather_query;
+      context.missingQuery = false;
     }
     else{
       context.missingQuery = true;
@@ -184,6 +184,7 @@ const actions = {
     var location = entities.location || context.location || false;
     if(location){
       context.location = location;
+      context.missingLocation = false;
     }
     else{
       context.missingLocation = true;
