@@ -171,6 +171,8 @@ const actions = {
     var self = this;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
+      console.log("the context I care about:"+JSON.stringify(context));
+      var string = "The weather in"
       self.send({sessionId: sessionId}, {text:"test"});
       return resolve(context);
     });
