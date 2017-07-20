@@ -64,16 +64,16 @@ exports = module.exports = function WeatherObj(weatherData){
 
   this.getTempString = function(){
     var string = "";
-    string += "The temperature in " + this.cityName
-     + " is currently " + this.temperature.current
-     + " with a min of " + this.temperature.min
+    string += "The temperature in " + this.cityName + "\n"
+     + " is currently " + this.temperature.current + "\n"
+     + " with a min of " + this.temperature.min + "\n"
      + " and a max of " + this.temperature.max;
      return string;
   }
 
   this.getWeatherString = function(){
     var string = "";
-    string += "The weather in " + this.cityName
+    string += "The weather in " + this.cityName + "\n"
      + " is currently " + this.weather[0].main;
      return string;
   }
@@ -82,8 +82,8 @@ exports = module.exports = function WeatherObj(weatherData){
     var string = "";
     var sunrise = new Date(this.solar.sunrise * 1000).toUTCString();
     var sunset = new Date(this.solar.sunset * 1000).toUTCString();
-    string += "The sun will rise at " + sunrise
-     + " and it will set at " + sunset
+    string += "The sun will rise at " + sunrise + "\n"
+     + " and it will set at " + sunset + "\n"
      + "(please note: these times are UTC)";
      return string;
   }
