@@ -262,8 +262,6 @@ app.post('/webhook', (req, res) => {
             wit.converse(sessionId, text, {})
               .then((response) => {
                 console.log('Wit.ai response (special converse log look at me look at me):\n' + JSON.stringify(response));
-                const recipientId = sessions[sessionId].fbid;
-                fbMessage(recipientId, JSON.stringify(response));
               })
 
 
