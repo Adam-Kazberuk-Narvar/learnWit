@@ -135,10 +135,12 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
+      console.log("context:"+JSON.stringify(context));
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
-          var context = {
+          var context = testObj;
+/*          var context = {
             coord_lat: testObj.coord.lat,
             coord_long: testObj.coord.lon,
             temp: testObj.main.temp,
@@ -153,7 +155,7 @@ const actions = {
             sunrise: testObj.sys.sunrise,
             sunset: testObj.sys.sunset,
             name: testObj.name
-          }
+          }*/
           return resolve(context);
         });
     })
