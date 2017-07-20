@@ -141,7 +141,7 @@ const actions = {
       console.log("pre getWeather context:"+JSON.stringify(context));
       console.log("getWeather request context:"+JSON.stringify(req.context));
       console.log("entities:"+JSON.stringify(req.entities));
-      request("http://api.openweathermap.org/data/2.5/weather?q=" + req.entities.location.value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
+      request("http://api.openweathermap.org/data/2.5/weather?q=" + req.entities.location[0].value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
           var context = {
