@@ -171,18 +171,23 @@ const actions = {
     var self = this;
     var context = req.context;
     var entities = req.entities;
-    console.log("entities:"+JSON.stringify(entities));
-    for(key in entities){
-      var entity = entities[key][0];
-      context[key].confidence = entity.confidence;
-      context[key].value = entity.value;
+    //entity overwrites context overwrites nothing.
+    var weather_query = entities.weather_query || context.weather_query || false;
+    if(weather_query){
+      context.weather_query = weather_query;
     }
-    if(!context.weather_query){
+    else{
       context.missingQuery = true;
     }
-    if(!context.location){
+
+    var location = entities.location || context.location || false;
+    if(location){
+      context.location = location;
+    }
+    else{
       context.missingLocation = true;
     }
+
     return context;
   }
 };
