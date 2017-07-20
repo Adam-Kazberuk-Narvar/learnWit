@@ -109,7 +109,7 @@ exports = module.exports = function WeatherObj(weatherData){
      return string;
   }
 
-  this.setUnits(unit){
+  this.setUnits = function(unit){
     this.unitType = unit;
   }
 
