@@ -1,6 +1,6 @@
 exports = module.exports = {
   convertKelvinToF: function convertKelvinToF(kelvinTemp){
-    return (9/5) * kelvinTemp - 459.67;
+    return (9/5) * (kelvinTemp - 273.15) + 32;
   },
 
   convertKelvinToC: function convertKelvinToC(kelvinTemp){
