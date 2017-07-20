@@ -148,37 +148,33 @@ const actions = {
         function (error, response, body) {
           var testObj = JSON.parse(body);
           var testWeatherObj = new WeatherObj(testObj);
-          var context = testWeatherObj;//testObj;
-          context.query = req.entities.weather_query;
+          var context = {
+            weather: testWeatherObj,
+            query: req.entities.weather_query
+          }
           return resolve(context);
         });
     })
-  },
-  sendTemperature(req){
-    var sessionId = req.sessionId;
-    var recipientId = sessions[sessionId].fbid;
-    var self = this;
-    return new Promise(function (resolve, reject) {
-      var context = sessions[sessionId].context;
-      console.log("temperature utility:"+JSON.stringify(tempUtil));
-      var convertedTemps = tempUtil.convertKelvin(req.context.main.temp, req.context.main.temp_min, req.context.main.temp_max);
-      var string = "The temperature in "+req.context.name+" is "+convertedTemps[0].f+" with a min of "+convertedTemps[1].f+" and a max of "+convertedTemps[2].f;
-      self.send({sessionId: sessionId}, {text:string});
-      return resolve(context);
-    });
   },
 
   sendQuery(req){
     var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     var self = this;
+    var weather = req.context.weather;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
       var string;
       switch(context.query){
+        case "temperature":
+          string = weather.getTempString();
+          break;
+        case "sun":
+          string = weather.getSunString();
+          break;
         case 'weather':
         default:
-          string = req.context.getWeatherString();
+          string = weather.getWeatherString();
           break;
       }
       self.send({sessionId: sessionId}, {text:string});
