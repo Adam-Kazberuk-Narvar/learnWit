@@ -58,8 +58,8 @@ exports = module.exports = function WeatherObj(weatherData){
     });
   }
   this.solar = {
-    sunrise: weatherData.sys.sunrise,
-    sunset: weatherData.sys.sunset
+    sunrise: new Date(weatherData.sys.sunrise * 1000),
+    sunset: new Date(weatherData.sys.sunset * 1000) //in epoch seconds
   }
 
   this.getTempString = function(){
@@ -80,8 +80,8 @@ exports = module.exports = function WeatherObj(weatherData){
 
   this.getSunString = function(){
     var string = "";
-    var sunrise = new Date(this.solar.sunrise * 1000).toTimeString();
-    var sunset = new Date(this.solar.sunset * 1000).toTimeString();
+    var sunrise = this.solar.sunrise.toTimeString();
+    var sunset = this.solar.sunset.toTimeString();
     string += "The sun will rise at " + sunrise
      + " and it will set at " + sunset;
      return string;
