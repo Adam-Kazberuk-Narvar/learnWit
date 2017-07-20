@@ -66,7 +66,7 @@ exports = module.exports = function WeatherObj(weatherData){
     var string = "";
     string += "The temperature in " + this.cityName
      + " is currently " + this.temperature.current
-     + " with a min of " + this.termperature.min
+     + " with a min of " + this.temperature.min
      + " and a max of " + this.temperature.max;
      return string;
   }
