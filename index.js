@@ -138,7 +138,8 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
-      console.log("context:"+JSON.stringify(context));
+      console.log("pre getWeather context:"+JSON.stringify(context));
+      console.log("getWeather request context:"+JSON.stringify(req.context));
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.context.location + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
@@ -161,6 +162,7 @@ const actions = {
             sunset: testObj.sys.sunset,
             name: testObj.name
           }*/
+          console.log("updated getWeather context:"+JSON.stringify(context));
           return resolve(context);
         });
     })
@@ -172,6 +174,7 @@ const actions = {
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
       console.log("the context I care about:"+JSON.stringify(context));
+      console.log("the other context I might care about:"+JSON.stringify(req.context));
       var string = "The weather in"
       self.send({sessionId: sessionId}, {text:"test"});
       return resolve(context);
