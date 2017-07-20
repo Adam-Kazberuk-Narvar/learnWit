@@ -80,8 +80,8 @@ exports = module.exports = function WeatherObj(weatherData){
 
   this.getSunString = function(){
     var string = "";
-    var sunrise = new Date(this.solar.sunrise * 1000).toTimeString();
-    var sunset = new Date(this.solar.sunset * 1000).toTimeString();
+    var sunrise = new Date(this.solar.sunrise * 1000).toLocaleTimeString();
+    var sunset = new Date(this.solar.sunset * 1000).toLocaleTimeString();
     string += "The sun will rise at " + sunrise
      + " and it will set at " + sunset;
      return string;
