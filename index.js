@@ -18,7 +18,7 @@ const crypto = require('crypto');
 const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
-import {temperatureUtility} from './utility/temperature'
+var tempUtil = require("./utility/temperature");
 
 const { Wit, log } = require('node-wit');
 
