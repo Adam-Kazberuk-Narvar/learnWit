@@ -127,6 +127,7 @@ const actions = {
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
       var context = sessions[sessionId].context;
+      console.log("the new important one:"+JSON.stringify(req.context));
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.entities.location[0].value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
