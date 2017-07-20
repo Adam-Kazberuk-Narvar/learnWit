@@ -171,10 +171,17 @@ const actions = {
     var self = this;
     var context = req.context;
     var entities = req.entities;
+    console.log("entities:"+JSON.stringify(entities));
     for(key in entities){
       var entity = entities[key][0];
       context[key].confidence = entity.confidence;
       context[key].value = entity.value;
+    }
+    if(!context.weather_query){
+      context.missingQuery = true;
+    }
+    if(!context.location){
+      context.missingLocation = true;
     }
     return context;
   }
