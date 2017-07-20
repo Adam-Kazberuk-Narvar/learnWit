@@ -61,5 +61,29 @@ exports = module.exports = function WeatherObj(weatherData){
     sunrise: weatherData.sys.sunrise,
     sunset: weatherData.sys.sunset
   }
+
+  this.getTempString = function(){
+    var string = "";
+    string += "The temperature in " + this.cityName
+     + " is currently " + this.temperature.current
+     + " with a min of " + this.termperature.min
+     + " and a max of " + this.temperature.max;
+     return string;
+  }
+
+  this.getWeatherString = function(){
+    var string = "";
+    string += "The weather in " + this.cityName
+     + " is currently " + this.weather[0].main;
+     return string;
+  }
+
+  this.getSunString = function(){
+    var string = "";
+    string += "The sun will rise at " + this.solar.sunrise
+     + " and it will set at " + this.solar.sunset;
+     return string;
+  }
+
   return this;
 }

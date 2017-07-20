@@ -147,9 +147,8 @@ const actions = {
       request("http://api.openweathermap.org/data/2.5/weather?q=" + req.entities.location[0].value + "&APPID=052a8ba39982fe46ea9ec930310db0eb",
         function (error, response, body) {
           var testObj = JSON.parse(body);
-          var context = testObj;
           var testWeatherObj = new WeatherObj(testObj);
-          console.log(JSON.stringify(testWeatherObj));
+          var context = testWeatherObj;//testObj;
           context.query = req.entities.weather_query;
           return resolve(context);
         });
@@ -179,7 +178,7 @@ const actions = {
       switch(context.query){
         case 'weather':
         default:
-          string = "qq magoo";
+          string = req.context.getWeatherString();
           break;
       }
       self.send({sessionId: sessionId}, {text:string});
