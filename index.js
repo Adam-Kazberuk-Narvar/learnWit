@@ -134,7 +134,7 @@ const actions = {
     });
   },
 
-  getWeather(req, entities){
+  getWeather(req){
     var sessionId = req.sessionId;
     var recipientId = sessions[sessionId].fbid;
     return new Promise(function (resolve, reject) {
