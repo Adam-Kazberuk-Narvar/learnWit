@@ -40,7 +40,8 @@ crypto.randomBytes(8, (err, buff) => {
   console.log(`/webhook will accept the Verify Token "${FB_VERIFY_TOKEN}"`);
 });
 
-var tempUtil = require('./utility/temperature')
+var tempUtil = require('./utility/temperature');
+var WeatherObj = require('./models/weather');
 
 // ----------------------------------------------------------------------------
 // Messenger API specific code
@@ -147,6 +148,9 @@ const actions = {
         function (error, response, body) {
           var testObj = JSON.parse(body);
           var context = testObj;
+          var testWeatherObj = new WeatherObj(testObj);
+          console.log(JSON.stringify(testWeatherObj));
+          context.query = req.entities.weather_query;
           return resolve(context);
         });
     })
@@ -160,6 +164,24 @@ const actions = {
       console.log("temperature utility:"+JSON.stringify(tempUtil));
       var convertedTemps = tempUtil.convertKelvin(req.context.main.temp, req.context.main.temp_min, req.context.main.temp_max);
       var string = "The temperature in "+req.context.name+" is "+convertedTemps[0].f+" with a min of "+convertedTemps[1].f+" and a max of "+convertedTemps[2].f;
+      self.send({sessionId: sessionId}, {text:string});
+      return resolve(context);
+    });
+  },
+
+  sendQuery(req){
+    var sessionId = req.sessionId;
+    var recipientId = sessions[sessionId].fbid;
+    var self = this;
+    return new Promise(function (resolve, reject) {
+      var context = sessions[sessionId].context;
+      var string;
+      switch(context.query){
+        case 'weather':
+        default:
+          string =
+          break;
+      }
       self.send({sessionId: sessionId}, {text:string});
       return resolve(context);
     });
