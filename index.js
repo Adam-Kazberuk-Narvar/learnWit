@@ -162,6 +162,17 @@ const actions = {
           return resolve(context);
         });
     })
+  },
+  sendTemperature(req){
+    var sessionId = req.sessionId;
+    var recipientId = sessions[sessionId].fbid;
+    var self = this;
+    return new Promise(function (resolve, reject) {
+      var context = sessions[sessionId].context;
+      self.send(sessionId, "test");
+      return resolve(context);
+    });
+
   }
 };
 
