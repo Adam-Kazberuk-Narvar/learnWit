@@ -22,4 +22,6 @@ function temperatureUtility(){
   return self;
 }
 
-module.exports = temperatureUtility();
+module.exports = {
+  tempUtil: temperatureUtility()
+}
