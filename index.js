@@ -271,6 +271,7 @@ function customContinueRunActions(sessionId, currentRequest, message, prevContex
 }
 
 function customRunActions(sessionId, message, context, maxSteps){
+  console.log("now what is this? " + JSON.stringify(this));
   //there is a check to make sure actions exist, where does that var come from?
   console.log("Checking to make sure there are actions:"+JSON.stringify(this.config.actions));
   if(!this.config.actions){
