@@ -358,10 +358,10 @@ app.post('/webhook', (req, res) => {
 
 
 
-            wit.converse(sessionId, text, {})
+/*            wit.converse(sessionId, text, {})
               .then((response) => {
                 console.log('Wit.ai response (special converse log look at me look at me):\n' + JSON.stringify(response));
-              })
+              })*/
 
 
 
@@ -372,7 +372,7 @@ app.post('/webhook', (req, res) => {
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
-            wit.runActions(
+            wit.customRunActions(
               sessionId, // the user's current session
               text, // the user's message
               sessions[sessionId].context // the user's current session state
