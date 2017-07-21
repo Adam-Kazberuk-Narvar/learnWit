@@ -191,117 +191,108 @@ const actions = {
     }
 
     return context;
+  },
+
+  customContinueRunActions(sessionId, currentRequest, message, prevContext, i){
+    return function (json) {
+      if (i < 0) {
+        console.warn('Max steps reached, stopping.');
+        return prevContext;
+      }
+      if (currentRequest !== _this._sessions[sessionId]) {
+        console.warn("currentRequest !== _this._sessions[sessionId]");
+        return prevContext;
+      }
+      if (!json.type) {
+        console.error(JSON.stringify(json));
+        throw new Error('Couldn\'t find type in Wit response');
+      }
+
+      console.log('Context: ' + JSON.stringify(prevContext));
+      console.log('Response type: ' + json.type);
+
+      //don't believe this is needed
+      // backwards-compatibility with API version 20160516
+/*      if (json.type === 'merge') {
+        json.type = 'action';
+        json.action = 'merge';
+      }*/
+
+      if (json.type === 'error') {
+        console.error(JSON.stringify(json));
+        throw new Error('Oops, I don\'t know what to do.');
+      }
+
+      if(json.type === 'stop'){
+        console.warn("stopping!");
+        return prevContext;
+      }
+
+      var request = {
+        sessionId: sessionId,
+        context: clone(prevContext),
+        text: message,
+        entities: json.entities
+      };
+
+      console.log("we've got some JSON:"+JSON.stringify(json));
+      if (json.type === 'msg') {
+        console.log("we've got a message!");
+        var response = {
+          text: json.msg,
+          quickreplies: json.quickreplies
+        };
+        return runAction(actions, 'send', request, response).then(function (ctx) {
+          if (ctx) {
+            throw new Error('Cannot update context after \'send\' action');
+          }
+          if (currentRequest !== _this._sessions[sessionId]) {
+            console.error("currentRequest !== _this._sessions[sessionId] in send");
+            return ctx;
+          }
+          return _this.converse(sessionId, null, prevContext).then(customContinueRunActions(sessionId, currentRequest, message, prevContext, i - 1));
+        });
+      } else if (json.type === 'action') {
+        return runAction(actions, json.action, request).then(function (ctx) {
+          var nextContext = ctx || {};
+          if (currentRequest !== _this._sessions[sessionId]) {
+            console.error("currentRequest !== _this._sessions[sessionId] in action");
+            return nextContext;
+          }
+          return _this.converse(sessionId, null, nextContext).then(customContinueRunActions(sessionId, currentRequest, message, nextContext, i - 1));
+        });
+      } else {
+        logger.debug('unknown response type ' + json.type);
+        throw new Error('unknown response type ' + json.type);
+      }
+
+    }
+  },
+
+  customRunActions(sessionId, message, context, maxSteps){
+    //there is a check to make sure actions exist, where does that var come from?
+    console.log("Checking to make sure there are actions:"+JSON.stringify(this.config.actions));
+    if(!this.config.actions){
+      console.error("no actions");
+      throw NoActionError;
+    }
+    var defaultMaxSteps = 5;
+    var steps = maxSteps ? maxSteps : defaultMaxSteps; //default max 5;
+
+    var currentRequest = (this._sessions[sessionId] || 0) + 1;
+    this._sessions[sessionId] = currentRequest;
+    var cleanup = function cleanup(ctx) {
+      //delete if it's the last step?
+      console.log("cleanup current:"+JSON.stringify(currentRequest));
+      console.log("this2 sessions:"+JSON.stringify(_this2._sessions[sessionId]));
+      if (currentRequest === _this2._sessions[sessionId]) {
+        delete _this2._sessions[sessionId];
+      }
+      return ctx;
+    };
+    return this.converse(sessionId, message, context, currentRequest > 1).then(customContinueRunActions(sessionId, currentRequest, message, context, steps)).then(cleanup);
   }
 };
-
-
-
-
-
-function customContinueRunActions(sessionId, currentRequest, message, prevContext, i){
-  return function (json) {
-    if (i < 0) {
-      console.warn('Max steps reached, stopping.');
-      return prevContext;
-    }
-    if (currentRequest !== _this._sessions[sessionId]) {
-      console.warn("currentRequest !== _this._sessions[sessionId]");
-      return prevContext;
-    }
-    if (!json.type) {
-      console.error(JSON.stringify(json));
-      throw new Error('Couldn\'t find type in Wit response');
-    }
-
-    console.log('Context: ' + JSON.stringify(prevContext));
-    console.log('Response type: ' + json.type);
-
-    //don't believe this is needed
-    // backwards-compatibility with API version 20160516
-/*      if (json.type === 'merge') {
-      json.type = 'action';
-      json.action = 'merge';
-    }*/
-
-    if (json.type === 'error') {
-      console.error(JSON.stringify(json));
-      throw new Error('Oops, I don\'t know what to do.');
-    }
-
-    if(json.type === 'stop'){
-      console.warn("stopping!");
-      return prevContext;
-    }
-
-    var request = {
-      sessionId: sessionId,
-      context: clone(prevContext),
-      text: message,
-      entities: json.entities
-    };
-
-    console.log("we've got some JSON:"+JSON.stringify(json));
-    if (json.type === 'msg') {
-      console.log("we've got a message!");
-      var response = {
-        text: json.msg,
-        quickreplies: json.quickreplies
-      };
-      return runAction(actions, 'send', request, response).then(function (ctx) {
-        if (ctx) {
-          throw new Error('Cannot update context after \'send\' action');
-        }
-        if (currentRequest !== _this._sessions[sessionId]) {
-          console.error("currentRequest !== _this._sessions[sessionId] in send");
-          return ctx;
-        }
-        return _this.converse(sessionId, null, prevContext).then(customContinueRunActions(sessionId, currentRequest, message, prevContext, i - 1));
-      });
-    } else if (json.type === 'action') {
-      return runAction(actions, json.action, request).then(function (ctx) {
-        var nextContext = ctx || {};
-        if (currentRequest !== _this._sessions[sessionId]) {
-          console.error("currentRequest !== _this._sessions[sessionId] in action");
-          return nextContext;
-        }
-        return _this.converse(sessionId, null, nextContext).then(customContinueRunActions(sessionId, currentRequest, message, nextContext, i - 1));
-      });
-    } else {
-      logger.debug('unknown response type ' + json.type);
-      throw new Error('unknown response type ' + json.type);
-    }
-
-  }
-}
-
-function customRunActions(sessionId, message, context, maxSteps){
-  //there is a check to make sure actions exist, where does that var come from?
-  console.log("Checking to make sure there are actions:"+JSON.stringify(this.config.actions));
-  if(!this.config.actions){
-    console.error("no actions");
-    throw NoActionError;
-  }
-  var defaultMaxSteps = 5;
-  var steps = maxSteps ? maxSteps : defaultMaxSteps; //default max 5;
-
-  var currentRequest = (this._sessions[sessionId] || 0) + 1;
-  this._sessions[sessionId] = currentRequest;
-  var cleanup = function cleanup(ctx) {
-    //delete if it's the last step?
-    console.log("cleanup current:"+JSON.stringify(currentRequest));
-    console.log("this2 sessions:"+JSON.stringify(_this2._sessions[sessionId]));
-    if (currentRequest === _this2._sessions[sessionId]) {
-      delete _this2._sessions[sessionId];
-    }
-    return ctx;
-  };
-  return this.converse(sessionId, message, context, currentRequest > 1).then(customContinueRunActions(sessionId, currentRequest, message, context, steps)).then(cleanup);
-}
-
-
-
-
-
 
 // Setting up our bot
 const wit = new Wit({
@@ -381,7 +372,7 @@ app.post('/webhook', (req, res) => {
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
-            wit.customRunActions(
+            wit.actions.customRunActions(
               sessionId, // the user's current session
               text, // the user's message
               sessions[sessionId].context // the user's current session state
