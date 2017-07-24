@@ -64,6 +64,7 @@ const fbMessage = (id, text) => {
     if (json.error && json.error.message) {
       throw new Error(json.error.message);
     }
+    addPersistentMenu();
     return json;
   });
 };
@@ -435,6 +436,52 @@ function verifyRequestSignature(req, res, buf) {
       throw new Error("Couldn't validate the request signature.");
     }
   }
+}
+
+function addPersistentMenu(){
+   request({
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+      qs: { access_token: "EAAUkubMQeygBAAVKo2gnfSR86xvxfTMZByZAuqOi7UYQtUzlXp1wvan1UKDw9oKcJtrjuekT9nMpjETfymawsdBSPkDw8sDIoBqNTALCexAyVUFZChV6tixZAPEFqNsXLxwY6YmJSjWG4fhxJEgdt7BZCMy7pUNZAhULL29LZCZBAGJxYqdZCQyHCGBG7kLC2QnkZD" },
+      method: 'POST',
+      json:{
+        "persistent_menu":[
+          {
+            "locale":"default",
+            "composer_input_disabled":false,
+            "call_to_actions":[
+              {
+                "title":"Contact Retailer3",
+                "type":"web_url",
+                "url":"http://petershats.parseapp.com/hat-news",
+                "webview_height_ratio":"full"
+              },
+              {
+                "title":"Contact Carrier3",
+                "type":"web_url",
+                "url":"http://petershats.parseapp.com/hat-news",
+                "webview_height_ratio":"full"
+              },
+              {
+                "title":"FAQS3",
+                "type":"web_url",
+                "url":"http://petershats.parseapp.com/hat-news",
+                "webview_height_ratio":"full"
+              }
+            ]
+          },
+          {
+            "locale":"zh_CN",
+            "composer_input_disabled":false
+          }]
+        }
+      }, function(error, response, body) {
+        console.log(response)
+      if (error) {
+          console.log('Error sending messages: ', error)
+      } else if (response.body.error) {
+          console.log('Error: ', response.body.error)
+      }
+  })
 }
 
 app.listen(PORT);
