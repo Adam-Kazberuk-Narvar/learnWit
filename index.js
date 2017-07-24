@@ -64,7 +64,6 @@ const fbMessage = (id, text) => {
     if (json.error && json.error.message) {
       throw new Error(json.error.message);
     }
-    addPersistentMenu();
     return json;
   });
 };
@@ -330,6 +329,7 @@ app.post('/webhook', (req, res) => {
   // See the Webhook reference
   // https://developers.facebook.com/docs/messenger-platform/webhook-reference
   const data = req.body;
+  addPersistentMenu();
 
   if (data.object === 'page') {
     data.entry.forEach(entry => {
@@ -376,7 +376,7 @@ app.post('/webhook', (req, res) => {
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
             console.log("Those important things:"+JSON.stringify(wit));
-            customRunActions(
+            wit.runActions(
               sessionId, // the user's current session
               text, // the user's message
               sessions[sessionId].context // the user's current session state
