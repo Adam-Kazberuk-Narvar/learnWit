@@ -90,8 +90,6 @@ const findOrCreateSession = (fbid) => {
     sessionId = new Date().toISOString();
     sessions[sessionId] = {fbid: fbid, context: {}};
   }
-//  removePersistentMenu();
-//  addPersistentMenu();
 
   return sessionId;
 };
@@ -347,6 +345,14 @@ app.post('/webhook', (req, res) => {
 
           // We retrieve the message content
           const {text, attachments} = event.message;
+
+          console.log("text:"+text);
+          if(text === "add menu"){
+            addPersistentMenu();
+          }
+          else if(text === "remove menu"){
+            removePersistentMenu();
+          }
 
           if (attachments) {
             // We received an attachment
