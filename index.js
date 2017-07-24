@@ -439,6 +439,7 @@ function verifyRequestSignature(req, res, buf) {
 }
 
 function addPersistentMenu(){
+    console.log("trying to add persistent menu");
    request({
       url: 'https://graph.facebook.com/v2.6/me/messenger_profile',
       qs: { access_token: "EAAUkubMQeygBAAVKo2gnfSR86xvxfTMZByZAuqOi7UYQtUzlXp1wvan1UKDw9oKcJtrjuekT9nMpjETfymawsdBSPkDw8sDIoBqNTALCexAyVUFZChV6tixZAPEFqNsXLxwY6YmJSjWG4fhxJEgdt7BZCMy7pUNZAhULL29LZCZBAGJxYqdZCQyHCGBG7kLC2QnkZD" },
