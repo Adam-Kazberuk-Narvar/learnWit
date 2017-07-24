@@ -90,8 +90,8 @@ const findOrCreateSession = (fbid) => {
     sessionId = new Date().toISOString();
     sessions[sessionId] = {fbid: fbid, context: {}};
   }
-  removePersistentMenu();
-  addPersistentMenu();
+//  removePersistentMenu();
+//  addPersistentMenu();
 
   return sessionId;
 };
