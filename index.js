@@ -505,7 +505,7 @@ function removePersistentMenu(){
       }
 
   }, function(error, response, body) {
-      console.log(response)
+      console.log("deleted!")
       if (error) {
           console.log('Error sending messages: ', error)
       } else if (response.body.error) {
