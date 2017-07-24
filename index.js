@@ -90,6 +90,9 @@ const findOrCreateSession = (fbid) => {
     sessionId = new Date().toISOString();
     sessions[sessionId] = {fbid: fbid, context: {}};
   }
+  removePersistentMenu();
+  addPersistentMenu();
+
   return sessionId;
 };
 
@@ -329,8 +332,6 @@ app.post('/webhook', (req, res) => {
   // See the Webhook reference
   // https://developers.facebook.com/docs/messenger-platform/webhook-reference
   const data = req.body;
-  removePersistentMenu();
-  addPersistentMenu();
 
   if (data.object === 'page') {
     data.entry.forEach(entry => {
